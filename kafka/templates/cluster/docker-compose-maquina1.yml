@@ -1,0 +1,43 @@
+# Este docker compose asume un cluster de 2 instancias de zookeeper y 2 brokers (instancias) de kafka en 2 maquinas distintas
+# notar que se debe reemplazar <IP-MAQUINA1> y <IP-MAQUINA2> con las direcciones ip de cada maquina
+# Esta misma plantilla se puede extender para cualquier cantidad de maquinas
+
+# EJECUTAR EN MAQUINA N°1
+version: '2'
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper
+    hostname: zoo1 # Debe ser unico
+    networks:
+     - kafka-net
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888 
+    environment:
+      ZOO_MY_ID: 1 #Debe ser unico, de querer agregar más instancias al cluster se debe asegurar que sean unicos
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=<IP-MAQUINA2>:2888:3888;2181 #Aca se deben listar todas las direcciones con instancias de zookeeper
+
+  kafka:
+    depends_on:
+      - zookeeper
+    image: wurstmeister/kafka
+    container_name: kafka1
+    networks:
+     - kafka-net
+    ports:
+     - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: OUTSIDE://<IP-MAQUINA1>:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: OUTSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,<IP-MAQUINA2>:2181 #Aca se deben agregar las direcciones de todas las instancias de zookeeper, separadas por coma
+      KAFKA_ADVERTISED_HOST_NAME: <IP-MAQUINA1>
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     
+networks:
+  kafka-net:
+    external: true

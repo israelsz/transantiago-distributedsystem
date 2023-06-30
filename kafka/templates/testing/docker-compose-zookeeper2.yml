@@ -1,0 +1,18 @@
+# Reemplazar <IP-MAQUINA1> y <IP-MAQUINA2>
+---
+version: '3.2'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zoo2 #Debe ser unico, otras instancias de zookeeper que se unan al cluster deben tener su hostname unico
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+    environment:
+      KAFKA_HEAP_OPTS: "-Xms512M -Xmx1024M"
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVER_ID: 2 #Debe ser unico, otras instancias de zookeeper que se unan al cluster deben tener su id unico
+      ZOOKEEPER_SERVERS: <IP-MAQUINA1>:2888:3888;zoo2:2888:3888
