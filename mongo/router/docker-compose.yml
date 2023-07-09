@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+## Router
+  router01:
+    image: mongo:6.0.1
+    container_name: router-01
+    command: mongos --port 27017 --configdb rs-config-server/10.0.0.178:27018,10.0.0.178:27018 --bind_ip_all
+    ports:
+      - 8008:27017
+    restart: always

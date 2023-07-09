@@ -1,0 +1,16 @@
+version: '3'
+services:
+  configsvr01:
+    image: mongo:6.0.1
+    container_name: mongo-config-01 
+    command: mongod --port 27017 --configsvr --replSet rs-config-server
+    ports:
+      - 27018:27017
+    restart: always
+  configsvr02:
+    image: mongo:6.0.1
+    container_name: mongo-config-02
+    command: mongod --port 27017 --configsvr --replSet rs-config-server
+    ports:
+      - 27022:27017
+    restart: always

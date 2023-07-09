@@ -1,0 +1,23 @@
+version: '3'
+services:  
+  shard01-a:
+    image: mongo:6.0.1
+    container_name: shard-01-node-a
+    command: mongod --port 27017 --shardsvr --replSet rs-shard-01
+    ports:
+      - 27019:27017
+    restart: always
+  shard01-b:
+    image: mongo:6.0.1
+    container_name: shard-01-node-b
+    command: mongod --port 27017 --shardsvr --replSet rs-shard-01
+    ports:
+      - 27020:27017
+    restart: always
+  shard01-c:
+    image: mongo:6.0.1
+    container_name: shard-01-node-c
+    command: mongod --port 27017 --shardsvr --replSet rs-shard-01
+    ports:
+      - 27021:27017
+    restart: always
