@@ -1,0 +1,6 @@
+# Activar el sharding en una coleccion
+sh.enableSharding("RED")
+db.adminCommand( { shardCollection: "RED.PARADEROS", key: { paraderos: "hashed", zipCode: 1, supplierId: 1 } } )
+
+# Confirmar los cambios
+sh.status()
