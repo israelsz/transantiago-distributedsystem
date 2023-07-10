@@ -1,0 +1,112 @@
+version: '3'
+services:
+
+  zoo2:
+    image: confluentinc/cp-zookeeper:7.2.1
+    container_name: zoo2
+    hostname: zoo2
+    logging:
+      driver: local
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_SERVERS: 144.22.52.73:2888:3888;zoo2:2888:3888
+    networks:
+      - kafka
+
+  kafka4:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka4
+    logging:
+      driver: local
+    ports:
+      - "9096:9096"
+      - "29101:29101"
+    depends_on:
+      - zoo2
+    environment:
+      KAFKA_BROKER_ID: 4
+      KAFKA_ZOOKEEPER_CONNECT: 144.22.52.73:2181,zoo2:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: EXTERNAL://144.22.48.184:9096,INTERNAL://kafka4:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: EXTERNAL
+      EXTRA_ARGS: -javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.17.0.jar=29101:/usr/share/jmx_exporter/kafka-broker.yaml
+    networks:
+      - kafka
+    volumes:
+      - ./jmx-exporter:/usr/share/jmx_exporter/
+      - kafka-jmx-volume:/jmx-exporter
+
+  kafka5:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka5
+    logging:
+      driver: local
+    ports:
+      - "9097:9097"
+      - "29102:29102"
+    depends_on:
+      - zoo2
+    environment:
+      KAFKA_BROKER_ID: 5
+      KAFKA_ZOOKEEPER_CONNECT: 144.22.52.73:2181,zoo2:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS:  EXTERNAL://144.22.48.184:9097,INTERNAL://kafka5:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: EXTERNAL
+      EXTRA_ARGS: -javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.17.0.jar=29102:/usr/share/jmx_exporter/kafka-broker.yaml
+    networks:
+      - kafka
+    volumes:
+      - ./jmx-exporter:/usr/share/jmx_exporter/
+      - kafka-jmx-volume:/jmx-exporter
+    
+  kafka6:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: kafka6
+    logging:
+      driver: local
+    ports:
+      - "9098:9098"
+      - "29103:29103"
+    depends_on:
+      - zoo2
+    environment:
+      KAFKA_BROKER_ID: 6
+      KAFKA_ZOOKEEPER_CONNECT: 144.22.52.73:2181,zoo2:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS:  EXTERNAL://144.22.48.184:9098,INTERNAL://kafka6:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: EXTERNAL
+      EXTRA_ARGS: -javaagent:/usr/share/jmx_exporter/jmx_prometheus_javaagent-0.17.0.jar=29103:/usr/share/jmx_exporter/kafka-broker.yaml
+    networks:
+      - kafka
+    volumes:
+      - ./jmx-exporter:/usr/share/jmx_exporter/
+      - kafka-jmx-volume:/jmx-exporter
+    
+  init-kafka-container:
+    image: confluentinc/cp-kafka:7.2.1
+    container_name: init-kafka
+    depends_on:
+      - kafka6
+    networks:
+      - kafka
+    entrypoint: [ '/bin/sh', '-c' ]
+    command: |
+      "
+      # Espera a que se creeen las instancias de kafka
+      kafka-topics --bootstrap-server 144.22.52.73:9093 --list
+      # Crea el topico con 18 particiones
+      kafka-topics --create --topic macrohard --bootstrap-server 144.22.52.73:9093 --partitions 18 --replication-factor 2
+      "
+
+volumes:
+  kafka-jmx-volume:
+
+networks:
+  kafka:
+    external: false
