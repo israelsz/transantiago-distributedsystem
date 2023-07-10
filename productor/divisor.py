@@ -8,6 +8,8 @@ def vaciar_carpeta():
     # Eliminar recursivamente todos los archivos y subdirectorios dentro de la carpeta
     shutil.rmtree(CARPETA)
     shutil.os.mkdir(CARPETA)
+
+
 def divide_json(file_name, number):
     with open(file_name, 'r') as json_file:
         data = json.load(json_file)
@@ -21,7 +23,7 @@ def divide_json(file_name, number):
         if i == number - 1:  # último archivo puede contener elementos adicionales
             end_index = total_elements
 
-        file_path = f'files/file{i + 1}.json'
+        file_path = f'partes/parte{i + 1}.json'
         with open(file_path, 'w') as output_file:
             json.dump(data[start_index:end_index], output_file, indent=4)
 
