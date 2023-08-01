@@ -54,6 +54,7 @@ html, body {
 }
 
 .component-title {
+  padding-top: 30px;
   font-size: 35px;
   font-weight: bold;
   margin-bottom: 20px;
