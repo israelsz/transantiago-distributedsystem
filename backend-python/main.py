@@ -4,6 +4,9 @@ from pyspark.sql import SQLContext
 from pyspark import SparkContext
 from pyspark.sql import functions as F
 import json
+import os
+from dotenv import load_dotenv
+
 
 
 def colorPopularSpark():
@@ -72,6 +75,15 @@ def infoParadero(paradero):
     return jsonify(resultado[0])
 
 # BLOQUE PRINCIPAL
+#Lectura de variables
+load_dotenv()
+ip_mongo = os.environ['IP_MONGO']
+port_mongo = os.environ['PORT_MONGO']
+db_name = os.environ['DB_NAME']
+db_collection = os.environ['DB_COLLECTION']
+
+
+# Configuracion de spark
 conf = pyspark.SparkConf().set("spark.jars.packages",
 "org.mongodb.spark:mongo-spark-connector_2.12:3.0.1",
     ).setMaster("local").setAppName("SPARK").setAll([
@@ -82,7 +94,14 @@ conf = pyspark.SparkConf().set("spark.jars.packages",
 sc = SparkContext(conf = conf)
 sqlC = SQLContext(sc)
 
-comments = sqlC.read.format("com.mongodb.spark.sql.DefaultSource").option("spark.mongodb.input.uri",
-                                                                      "mongodb://144.22.44.98:8008/RED.PARADEROS").load()
-comments.createOrReplaceTempView("PARADEROS")
+# Conexión con mongo db
+conexion = f"mongodb://{ip_mongo}:{port_mongo}/{db_name}.{db_collection}"
+print("######################")
+print("Conexion:",conexion)
+print("######################")
+comments = sqlC.read.format("com.mongodb.spark.sql.DefaultSource").option("spark.mongodb.input.uri",conexion).load()
+comments.createOrReplaceTempView(db_collection)
+
+
+# Se inicio flask
 app.run(debug=True)
