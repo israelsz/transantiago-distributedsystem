@@ -1,6 +1,6 @@
 <template>
   <div>
-    Reprobe caldo de gallina
+    Reprobe caldo de gallina.
     Aqui quiero poner detalles de la aplicación, tipo pegar los diagramas que tenemos
   </div>
 </template>
