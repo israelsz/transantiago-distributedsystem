@@ -6,10 +6,6 @@
         <v-btn v-else @click="getMicros()">Actualizar</v-btn>
         <v-container class="cont" v-if="!loading">
             <v-card class="mx-auto pa-2" max-width="350">
-                <v-toolbar color="cyan-lighten-1">
-                    <v-toolbar-title>Top recorridos no disponibles</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                </v-toolbar>
                 <v-list>
                     <template v-for="(item, i) in items">
                         <v-list-item :key="i" active-color="primary" rounded="xl">
