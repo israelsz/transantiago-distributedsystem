@@ -10,7 +10,7 @@ COPY .env /app
 
 # Instalacion de python y pip
 RUN apk add python3 bash py3-pip openjdk11-jdk
-RUN pip install pyspark findspark flask python-dotenv
+RUN pip install pyspark findspark flask python-dotenv flask_cors
 
 # Variables
 EXPOSE 5000
