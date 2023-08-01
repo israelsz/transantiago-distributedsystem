@@ -10,7 +10,7 @@
           <v-tabs align-with-title>
             <v-tab :to="{path: '/'}">Inicio</v-tab>
             <v-tab :to="{path: '/detalles'}">Consultar Paradero</v-tab>
-            <v-tab>Estadisticas de Paraderos</v-tab>
+            <v-tab :to="{path: '/estadisticas'}">Estadisticas de Paraderos</v-tab>
           </v-tabs>
         </template>
       </v-toolbar>
