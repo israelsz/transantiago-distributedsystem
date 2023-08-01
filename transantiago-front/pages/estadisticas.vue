@@ -2,7 +2,7 @@
   <div class="container">
     <!-- Container for Color component (60% width) -->
     <div class="component-container color-container">
-      <h1 class="component-title">Color de micro más repetido</h1>
+      <h1 class="component-title">Color de micro más repetido por paradero</h1>
       <Color />
     </div>
 
@@ -42,15 +42,15 @@ html, body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  flex-grow: 1; /* Each component container takes up the available space */
+  flex-grow: 1;
 }
 
 .color-container {
-  flex-basis: 60%; /* Color component container takes 60% width */
+  flex-basis: 60%;
 }
 
 .no-disponible-container {
-  flex-basis: 40%; /* NoDisponible component container takes 40% width */
+  flex-basis: 40%;
 }
 
 .component-title {
@@ -61,8 +61,8 @@ html, body {
 
 .vertical-separator {
   border-left: 1px solid #ccc;
-  flex-basis: 0; /* Allow the separator to take up remaining space */
-  flex-grow: 1; /* Stretch the separator to fill remaining vertical space */
+  flex-basis: 0;
+  flex-grow: 1;
   margin: 0 20px;
 }
 </style>
