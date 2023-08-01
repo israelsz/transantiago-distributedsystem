@@ -1,5 +1,6 @@
 <template>
-    <v-container class="cont">
+    <div><v-btn @click="getMicros()">Actualizar</v-btn>
+        <v-container class="cont">
         <v-card class="mx-auto pa-2" max-width="350">
             <v-toolbar color="cyan-lighten-1">
                 <v-toolbar-title>Top recorridos no disponibles</v-toolbar-title>
@@ -8,6 +9,10 @@
             <v-list>
                 <template v-for="(item, i) in items">
                     <v-list-item :key="i" active-color="primary" rounded="xl">
+                        <!-- Display the index "i" on the left of each item -->
+                        <v-list-item-avatar>
+                            <v-icon>{{ i + 1 }}°</v-icon>
+                        </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title v-text="item.micro"></v-list-item-title>
                             <v-list-item-subtitle>{{ item.cantidad }} micros no disponibles</v-list-item-subtitle>
@@ -20,9 +25,13 @@
             </v-list>
         </v-card>
     </v-container>
+    </div>
+
 </template>
 
+
 <script>
+import axios from 'axios';
 export default {
     data: () => ({
         items: [
@@ -105,164 +114,22 @@ export default {
             {
                 "cantidad": 19,
                 "micro": "1041"
-            },
-            {
-                "cantidad": 19,
-                "micro": "264N"
-            },
-            {
-                "cantidad": 19,
-                "micro": "B13"
-            },
-            {
-                "cantidad": 18,
-                "micro": "G23"
-            },
-            {
-                "cantidad": 18,
-                "micro": "302"
-            },
-            {
-                "cantidad": 17,
-                "micro": "428C"
-            },
-            {
-                "cantidad": 17,
-                "micro": "J16"
-            },
-            {
-                "cantidad": 17,
-                "micro": "216"
-            },
-            {
-                "cantidad": 17,
-                "micro": "990"
-            },
-            {
-                "cantidad": 16,
-                "micro": "271"
-            },
-            {
-                "cantidad": 15,
-                "micro": "J06"
-            },
-            {
-                "cantidad": 15,
-                "micro": "F01C"
-            },
-            {
-                "cantidad": 15,
-                "micro": "F91"
-            },
-            {
-                "cantidad": 14,
-                "micro": "E16"
-            },
-            {
-                "cantidad": 14,
-                "micro": "385"
-            },
-            {
-                "cantidad": 13,
-                "micro": "E02"
-            },
-            {
-                "cantidad": 13,
-                "micro": "442"
-            },
-            {
-                "cantidad": 13,
-                "micro": "422"
-            },
-            {
-                "cantidad": 13,
-                "micro": "302N"
-            },
-            {
-                "cantidad": 13,
-                "micro": "212"
-            },
-            {
-                "cantidad": 13,
-                "micro": "D03C"
-            },
-            {
-                "cantidad": 12,
-                "micro": "B05"
-            },
-            {
-                "cantidad": 12,
-                "micro": "C22"
-            },
-            {
-                "cantidad": 12,
-                "micro": "912"
-            },
-            {
-                "cantidad": 12,
-                "micro": "F90"
-            },
-            {
-                "cantidad": 12,
-                "micro": "B93"
-            },
-            {
-                "cantidad": 11,
-                "micro": "229"
-            },
-            {
-                "cantidad": 11,
-                "micro": "111"
-            },
-            {
-                "cantidad": 11,
-                "micro": "291"
-            },
-            {
-                "cantidad": 11,
-                "micro": "992"
-            },
-            {
-                "cantidad": 11,
-                "micro": "B12C"
-            },
-            {
-                "cantidad": 11,
-                "micro": "G05"
-            },
-            {
-                "cantidad": 11,
-                "micro": "E18"
-            },
-            {
-                "cantidad": 11,
-                "micro": "590"
-            },
-            {
-                "cantidad": 10,
-                "micro": "E04"
-            },
-            {
-                "cantidad": 10,
-                "micro": "G01C"
-            },
-            {
-                "cantidad": 10,
-                "micro": "450"
-            },
-            {
-                "cantidad": 10,
-                "micro": "D01"
-            },
-            {
-                "cantidad": 10,
-                "micro": "C17"
-            },
-            {
-                "cantidad": 10,
-                "micro": "H06"
             }
         ],
     }),
+    async created() {
+        this.getMicros();
+    },
+    methods: {
+        async getMicros() {
+            try {
+                console.log("getMicros");
+                // const response = await axios.get('http://144.22.50.180/micros/');
+                // this.items = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 }
 </script>

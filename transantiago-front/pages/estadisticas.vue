@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <!-- Container for Color component -->
-    <div class="component-container">
-      <h1 class="component-title">Color Component</h1>
+    <!-- Container for Color component (60% width) -->
+    <div class="component-container color-container">
+      <h1 class="component-title">Color de micro más repetido</h1>
       <Color />
     </div>
 
     <!-- Vertical separator -->
     <div class="vertical-separator"></div>
 
-    <!-- Container for NoDisponible component -->
-    <div class="component-container">
-      <h1 class="component-title">NoDisponible Component</h1>
+    <!-- Container for NoDisponible component (40% width) -->
+    <div class="component-container no-disponible-container">
+      <h1 class="component-title">Recorridos con más micros no disponibles</h1>
       <NoDisponible />
     </div>
   </div>
@@ -27,10 +27,14 @@ export default {
 </script>
 
 <style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align items at the top of the container */
 }
 
 .component-container {
@@ -38,7 +42,15 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  flex-grow: 1; /* Allow the component container to take up available space */
+  flex-grow: 1; /* Each component container takes up the available space */
+}
+
+.color-container {
+  flex-basis: 60%; /* Color component container takes 60% width */
+}
+
+.no-disponible-container {
+  flex-basis: 40%; /* NoDisponible component container takes 40% width */
 }
 
 .component-title {
@@ -49,7 +61,8 @@ export default {
 
 .vertical-separator {
   border-left: 1px solid #ccc;
-  height: 200px;
+  flex-basis: 0; /* Allow the separator to take up remaining space */
+  flex-grow: 1; /* Stretch the separator to fill remaining vertical space */
   margin: 0 20px;
 }
 </style>
