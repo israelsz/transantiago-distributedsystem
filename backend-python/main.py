@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
 import pyspark
 from pyspark.sql import SQLContext
 from pyspark import SparkContext
@@ -45,16 +46,22 @@ def menosDisp():
 # Se inicia flask
 app = Flask(__name__)
 # Ruta para obtener el color mas popular historicamente
-@app.route('/color/')
+@app.route('/color/', methods=['GET'])
+@cross_origin()
 def colorPopular():
     resultado = colorPopularSpark()
-    return jsonify(resultado)
+    response = jsonify(resultado)
+    #response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # La micro menos disponible
-@app.route('/micro/')
+@app.route('/micro/', methods=['GET'])
+@cross_origin()
 def microMenosDisponible():
     resultado = menosDisp()
-    return jsonify(resultado)
+    response = jsonify(resultado)
+    #response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 def buscarParadero(paradero):
@@ -69,10 +76,31 @@ def buscarParadero(paradero):
     return resultado
 
 # La micro menos disponible
-@app.route('/paradero/<string:paradero>')
+@app.route('/paradero/<string:paradero>', methods=['GET'])
+@cross_origin()
 def infoParadero(paradero):
     resultado = buscarParadero(paradero)
-    return jsonify(resultado[0])
+    response = jsonify(resultado[0]) 
+    #response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+def listParaderos():
+    query = f"SELECT DISTINCT paradero FROM PARADEROS "
+    commentsList = sqlC.sql(query)
+    # Convert the DataFrame to a JSON array
+    json_array = commentsList.toJSON().collect()
+    resultado = []
+    for document in json_array:
+        json_object =json.loads(document)
+        resultado.append(json_object["paradero"])
+    return resultado
+# Listar paraderos
+@app.route('/paraderos/', methods=['GET'])
+@cross_origin()
+def listaParadores():
+    resultado = listParaderos()
+    response = jsonify(resultado)
+    return response
 
 # BLOQUE PRINCIPAL
 #Lectura de variables
