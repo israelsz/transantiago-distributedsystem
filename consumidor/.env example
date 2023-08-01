@@ -1,0 +1,5 @@
+IP=some_ip_address
+PORT=some_port_number
+TOPIC=some_topic
+IP_MONGO=some_mongo_ip_address
+PORT_MONGO=some_mongo_port_number

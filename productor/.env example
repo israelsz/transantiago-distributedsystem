@@ -1,0 +1,5 @@
+IP=some_ip_address
+PORT=some_port_number
+TOPIC=some_topic
+NUM_CONTENEDORES=numero_cont
+NUM_HEBRAS=numero_hebras
