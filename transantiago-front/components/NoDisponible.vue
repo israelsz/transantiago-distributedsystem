@@ -4,7 +4,7 @@
             <v-progress-circular v-if="loading" indeterminate color="white"></v-progress-circular>
             Actualizar</v-btn>
         <v-btn v-else @click="getMicros()">Actualizar</v-btn>
-        <v-container class="cont">
+        <v-container class="cont" v-if="!loading">
             <v-card class="mx-auto pa-2" max-width="350">
                 <v-toolbar color="cyan-lighten-1">
                     <v-toolbar-title>Top recorridos no disponibles</v-toolbar-title>
