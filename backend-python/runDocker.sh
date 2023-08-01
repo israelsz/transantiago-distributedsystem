@@ -5,4 +5,4 @@ docker stop "spark_backend"
 docker rm -f "spark_backend"
 #Cargar variables
 source .env
-docker run --name "spark_backend" --network="host" distribuidos-backend-spark
+docker run -d --name "spark_backend" --network="host" distribuidos-backend-spark
