@@ -50,6 +50,10 @@ export default {
     baseURL: process.env.BASE_URL,
   },
 
+  router: {
+    mode: 'hash'
+  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
