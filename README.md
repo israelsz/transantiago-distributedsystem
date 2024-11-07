@@ -6,3 +6,11 @@ Las carpetas poseen los archivos necesarios para el montaje de los distintos com
 1. Consumidor: En esta carpeta se encuentran los archivos necesarios para el despliegue de contenedores para un consumidor
 2. Productor: En esta carpeta se encuentran los archivos necesarios para el despliegue de contenedores para un consumidor
 3. Kafka: En esta carpeta se encuentras los archivos necesarios para realizar el despliegue de kafka y zookeper.
+
+* Arquitectura:
+
+![Architecture](img/architecture.png)
+
+* Pipeline:
+
+![Pipeline](img/pipeline-data.png)
